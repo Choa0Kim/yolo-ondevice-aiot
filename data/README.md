@@ -22,8 +22,11 @@ data/
 ```yaml
 names:
   0: person
-  1: car
+  1: box
   2: traffic_cone
-  3: obstacle
+  3: forklift
 ```
 
+라벨링 기준과 데이터 수집 기준은 [docs/dataset_guide.md](../docs/dataset_guide.md)를 참고합니다.
+
+Colab 학습 시에는 `data.yaml.example`을 복사하여 실제 경로에 맞게 `data.yaml`로 수정합니다.

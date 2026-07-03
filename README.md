@@ -63,7 +63,9 @@ Camera / Video
 - `person`
 - `box`
 - `traffic_cone`
-- `forklift` 또는 `vehicle`
+- `forklift`
+
+클래스 정의와 라벨링 기준은 [docs/dataset_guide.md](docs/dataset_guide.md)를 참고합니다.
 
 ## 검증 방식
 
@@ -78,4 +80,3 @@ Camera / Video
 - 원본 데이터셋, 학습된 모델 파일, 데모 영상은 용량이 크므로 Git에 직접 올리지 않습니다.
 - 개인 PDF, 참고 이미지, 임시 렌더링 파일은 Git에 올리지 않습니다.
 - 모델과 데이터는 README에 다운로드 위치 또는 생성 방법을 기록합니다.
-

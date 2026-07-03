@@ -1,0 +1,10 @@
+path: /content/dataset
+train: images/train
+val: images/val
+
+names:
+  0: person
+  1: box
+  2: traffic_cone
+  3: forklift
+
