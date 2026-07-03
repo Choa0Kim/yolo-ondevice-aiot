@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+.env
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Data and model artifacts
+data/images/
+data/labels/
+data/raw/
+data/processed/
+models/*.pt
+models/*.onnx
+models/*.engine
+models/*.tflite
+runs/
+
+# Demo outputs
+demo/
+*.mp4
+*.avi
+*.mov
+
+# Node / Node-RED
+node_modules/
+.node-red/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Temporary files
+tmp/
+
+# Local reference documents
+*.pdf
+노트북성능.png
