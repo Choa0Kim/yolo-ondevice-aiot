@@ -14,6 +14,9 @@ data/images/
 data/labels/
 data/raw/
 data/processed/
+data/external/
+FRC2023-935-4/
+Warehouse-1/
 models/*.pt
 models/*.onnx
 models/*.engine

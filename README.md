@@ -74,6 +74,53 @@ Camera / Video
 | 모델 성능 검증 | 사진 이미지 | mAP, precision, recall, 클래스별 탐지 성능 확인 |
 | 실시간 시스템 검증 | 임의의 동영상 | ONNX 추론, 위험도 판단, MQTT publish, Node-RED dashboard 확인 |
 
+## 데이터셋 상태
+
+최종 학습용 데이터셋은 로컬의 `data/processed/dataset_final`에 생성합니다. 원본 이미지와 라벨 파일은 GitHub에 올리지 않습니다.
+
+현재 최종 데이터셋 분포:
+
+| Split | Images | person | box | traffic_cone | forklift |
+|---|---:|---:|---:|---:|---:|
+| train | 813 | 410 | 857 | 1521 | 79 |
+| val | 113 | 91 | 163 | 118 | 23 |
+
+데이터 출처와 클래스 매핑은 [docs/dataset_guide.md](docs/dataset_guide.md)를 참고합니다.
+
+## 학습 및 변환
+
+Colab T4 기반 학습, validation 이미지 예측, ONNX 변환 절차는 [docs/training_colab_guide.md](docs/training_colab_guide.md)에 정리했습니다.
+
+재현용 스크립트:
+
+```text
+scripts/train_yolov8.py
+scripts/predict_validation.py
+scripts/export_onnx.py
+```
+
+## 모델 성능
+
+YOLOv8n 모델을 최종 데이터셋으로 파인튜닝한 결과는 다음과 같습니다.
+
+| Metric | Value | 해석 |
+|---|---:|---|
+| Precision(B) | 0.87 | 예측한 객체 중 실제 정답 비율이 높아 오탐이 비교적 적음 |
+| Recall(B) | 0.72 | 실제 객체 중 약 72%를 탐지하여 일부 미탐 존재 |
+| mAP50(B) | 0.79 | IoU 0.5 기준 객체 탐지 성능은 양호 |
+| mAP50-95(B) | 0.56 | 더 엄격한 bbox 위치 정확도 기준에서는 개선 여지 있음 |
+
+`mAP50-95`가 상대적으로 낮은 이유는 여러 공개 데이터셋을 병합하면서 촬영 환경, 라벨링 기준, 클래스별 데이터 수가 균일하지 않기 때문으로 해석합니다. 특히 `forklift` 클래스의 데이터 수가 다른 클래스보다 적어 클래스별 성능 편차가 발생할 수 있습니다.
+
+현재 결과는 미니프로젝트 프로토타입 기준으로는 충분하며, 이후 개선 방향은 다음과 같습니다.
+
+- `forklift` 데이터 추가 확보
+- 클래스별 데이터 수 균형 조정
+- 제조/물류 배경 validation 이미지 추가
+- bbox 라벨 품질 점검
+- `YOLOv8s` 등 더 큰 모델과 비교 실험
+- augmentation 설정 조정
+
 ## Git 관리 원칙
 
 - 코드, 설정, 문서, Node-RED flow는 GitHub에 올립니다.
