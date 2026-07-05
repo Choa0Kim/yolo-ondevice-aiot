@@ -74,6 +74,16 @@ python scripts/export_onnx.py \
   --imgsz 640
 ```
 
+## create_validation_video.py
+
+validation 이미지를 이어붙여 ONNX 동영상 추론 테스트용 MP4를 만듭니다.
+
+```powershell
+python scripts/create_validation_video.py `
+  --source-dir data\processed\dataset_final\images\val `
+  --output output\input\validation_slideshow.mp4
+```
+
 ## merge_yolo_datasets.py
 
 여러 YOLO 데이터셋을 최종 클래스 ID 체계로 재매핑하면서 병합합니다.

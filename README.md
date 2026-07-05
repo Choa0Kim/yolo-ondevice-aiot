@@ -99,6 +99,36 @@ scripts/predict_validation.py
 scripts/export_onnx.py
 ```
 
+## ONNX 실시간 추론
+
+로컬 노트북에서 `best.onnx`를 `models/best.onnx`에 배치한 뒤 ONNX Runtime으로 이미지/동영상 추론을 실행합니다. 모델 파일은 GitHub에 올리지 않습니다.
+
+자세한 실행 절차는 [docs/realtime_system_guide.md](docs/realtime_system_guide.md)를 참고합니다.
+
+```powershell
+python src/run_onnx_detection.py `
+  --model models/best.onnx `
+  --source demo/input/warehouse_test.mp4 `
+  --output output/detections
+```
+
+MQTT를 함께 사용할 경우:
+
+```powershell
+python src/run_onnx_detection.py `
+  --model models/best.onnx `
+  --source demo/input/warehouse_test.mp4 `
+  --output output/detections `
+  --mqtt-host localhost `
+  --mqtt-topic aiot/detection
+```
+
+출력:
+
+```text
+output/detections/result_video.mp4
+```
+
 ## 모델 성능
 
 YOLOv8n 모델을 최종 데이터셋으로 파인튜닝한 결과는 다음과 같습니다.
