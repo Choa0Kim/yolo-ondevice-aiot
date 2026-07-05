@@ -74,6 +74,8 @@ Camera / Video
 | 모델 성능 검증 | 사진 이미지 | mAP, precision, recall, 클래스별 탐지 성능 확인 |
 | 실시간 시스템 검증 | 임의의 동영상 | ONNX 추론, 위험도 판단, MQTT publish, Node-RED dashboard 확인 |
 
+실시간 시스템 검증은 실제 작업장/물류 이동 영상의 30초 구간을 사용해 수행했습니다. 로컬 노트북에서 ONNX Runtime 추론, 위험도 계산, MQTT publish, Node-RED dashboard 표시까지 확인했습니다.
+
 ## 데이터셋 상태
 
 최종 학습용 데이터셋은 로컬의 `data/processed/dataset_final`에 생성합니다. 원본 이미지와 라벨 파일은 GitHub에 올리지 않습니다.
@@ -128,6 +130,8 @@ python src/run_onnx_detection.py `
 ```text
 output/detections/result_video.mp4
 ```
+
+실제 영상 검증 기록은 [docs/realtime_system_guide.md](docs/realtime_system_guide.md)에 정리했습니다.
 
 ## 모델 성능
 

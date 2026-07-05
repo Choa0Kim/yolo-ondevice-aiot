@@ -205,3 +205,65 @@ output/detections_mqtt/result_video.mp4
 aiot-mosquitto: localhost:1883
 aiot-node-red: localhost:1880, dashboard /ui
 ```
+
+## 10. 실제 작업장 영상 검증 기록
+
+YouTube 작업장/물류 이동 영상 중 04:30-05:00 구간을 테스트 입력으로 사용했다.
+
+```text
+source: https://www.youtube.com/watch?v=SA6F75JGd_M
+section: 04:30-05:00
+local input: demo/input/warehouse_youtube_clip_640_10fps.mp4
+output: output/detections_youtube/result_video.mp4
+preview: output/detections_youtube/result_video_preview.jpg
+```
+
+원본은 1080p 60fps라 로컬 검증 시간이 길어질 수 있어, 시스템 검증용으로 640px 폭/10fps 파일을 별도로 생성했다.
+
+```powershell
+python src/run_onnx_detection.py `
+  --model models\best.onnx `
+  --source demo\input\warehouse_youtube_clip_640_10fps.mp4 `
+  --output output\detections_youtube `
+  --mqtt-host localhost `
+  --mqtt-topic aiot/detection
+```
+
+검증 결과:
+
+```text
+input frames: 300
+input duration: about 30 seconds
+output video: created
+MQTT publish: confirmed
+Node-RED dashboard: confirmed
+detected classes: person, box
+risk levels: STOP, SLOW
+```
+
+대표 payload:
+
+```json
+{
+  "device_id": "edge-camera-01",
+  "domain": "smart_factory_logistics",
+  "objects": [
+    {
+      "class": "person",
+      "confidence": 0.7921,
+      "bbox": [349, 3, 552, 357]
+    },
+    {
+      "class": "person",
+      "confidence": 0.6703,
+      "bbox": [134, 94, 379, 359]
+    }
+  ],
+  "risk_level": "STOP",
+  "reason": "person detected in center lane stop zone",
+  "fps": 8.14,
+  "frame_index": 90
+}
+```
+
+이 검증은 실제 AMR 주행 제어가 아니라, 로컬 노트북에서 ONNX 모델이 동영상 프레임을 처리하고 위험도 판단 결과를 MQTT/Node-RED로 전달할 수 있는지 확인하는 시스템 통합 테스트다.
