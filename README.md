@@ -4,6 +4,16 @@
 
 YOLO 모델을 소량 데이터로 파인튜닝한 뒤 ONNX로 변환하여 온디바이스 추론 가능성을 검증하고, 감지 결과를 MQTT로 전송하여 Node-RED 대시보드에서 시각화합니다.
 
+## 프로젝트 개요
+
+| 항목 | 내용 |
+|---|---|
+| 도메인 | 제조/물류 창고 AMR 안전 주행 보조 |
+| 목표 | 작업자, 박스, 라바콘, 지게차를 감지해 주행 위험도 판단 |
+| 모델 | YOLOv8n fine-tuning, ONNX Runtime 추론 |
+| 연동 | MQTT publish, Node-RED dashboard |
+| 검증 | validation 이미지 성능 평가, 실제 작업장 영상 기반 실시간 시스템 검증 |
+
 ## 목표
 
 - 제조/물류 도메인 위험 객체 감지용 YOLO 모델 파인튜닝
@@ -43,6 +53,7 @@ Camera / Video
 ├─ models/
 ├─ notebooks/
 ├─ node-red/
+├─ result_image/
 └─ src/
 ```
 
@@ -58,7 +69,7 @@ Camera / Video
 8. Node-RED dashboard 구성
 9. 데모 영상과 결과 정리
 
-## 감지 클래스 초안
+## 감지 클래스
 
 - `person`
 - `box`
@@ -132,6 +143,28 @@ output/detections/result_video.mp4
 ```
 
 실제 영상 검증 기록은 [docs/realtime_system_guide.md](docs/realtime_system_guide.md)에 정리했습니다.
+
+## 결과 화면
+
+### 실제 작업장 영상 추론
+
+실제 작업장/물류 이동 영상의 30초 구간을 사용해 ONNX Runtime 추론과 위험도 판단을 검증했습니다.
+
+![YouTube 작업장 영상 추론 결과](result_image/youtube_result.png)
+
+### 물류 창고 객체 탐지 결과
+
+물류 창고 환경에서 `box`, `forklift` 객체를 탐지하고, 위험 객체가 중앙 하단 위험 영역에 들어오면 `STOP`으로 판단합니다.
+
+![창고 영상 추론 결과 1](result_image/mp4_result1.png)
+
+![창고 영상 추론 결과 2](result_image/mp4_result2.png)
+
+### Node-RED 대시보드
+
+ONNX 추론 결과를 MQTT로 publish하고, Node-RED dashboard에서 위험도, FPS, 객체 수, 판단 사유를 실시간으로 확인했습니다.
+
+![Node-RED dashboard](result_image/node_red_dashboard.png)
 
 ## 모델 성능
 
